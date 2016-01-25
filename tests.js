@@ -25,7 +25,8 @@ var parseAnyDate = require('./parseAnyDate.js'),
         '10, August 1994': '1994-08-10',
          // non usa day month year these should fail
         '10-08-1994': '1994-08-10',
-        '10-8-1994': '1994-08-10'
+        '10-8-1994': '1994-08-10',
+        'asdf': new Date().toISOString().substr(0, 10)
     };
 
 // automatic tests on a number of formats for a lot of different styles of input
