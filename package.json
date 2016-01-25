@@ -5,6 +5,6 @@
   },
   "scripts": {
     "test": "node tests.js",
-    "build": "uglify-js parseAnyDate.js -c -m -o parseAnyDate.min.js"
+    "build": "uglifyjs parseAnyDate.js -c -m -o parseAnyDate.min.js"
   }
 }
