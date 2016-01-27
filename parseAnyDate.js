@@ -18,6 +18,7 @@ function parseAnyDate(input) {
     var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
         dayEnds = ['th', 'st', 'rd', 'nd'],
         isNum = false,
+        dateString = '',
         d = {
             h: 0,
             mi: 0,
@@ -81,9 +82,16 @@ function parseAnyDate(input) {
         }
     });
 
-    // var out = d.y + '-' + d.m + '-' + d.d + ' ' + d.h + ':' + d.mi + ':' + d.s;
-    // console.log('after', input, 'output', out);
-    return new Date(d.y, d.m - 1, d.d, d.h, d.mi, d.s);
+    dateString = d.y + '-' + d.m + '-' + d.d + ' ' + d.h + ':' + d.mi + ':' + d.s;
+    //console.log('processded', input, 'as', dateString);
+
+    var secs = Date.parse(dateString);
+    if (!isNaN(secs)) {
+        return new Date(secs);
+    } else {
+        return new Date();
+    }
+
 }
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {

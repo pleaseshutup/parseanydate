@@ -26,6 +26,7 @@ var parseAnyDate = require('./parseAnyDate.js'),
          // non usa day month year these should fail
         '10-08-1994': '1994-08-10',
         '10-8-1994': '1994-08-10',
+        '.': new Date().toISOString().substr(0, 10),
         'asdf': new Date().toISOString().substr(0, 10)
     };
 
@@ -73,13 +74,13 @@ for (var i = 0; i < 10000; i++) {
             parsed = dt.toISOString();
             if (parsed !== expect) {
                 fail++;
-                errorLog += 'failed input: ' + test + ' result: ' + parsed + ' != ' + expect + '\n';
+                errorLog += 'failed match: ' + test + ' result: ' + parsed + ' != ' + expect + '\n';
             } else {
                 success++;
             }
         } catch(e){
             fail++;
-            errorLog += 'failed input: ' + test + ' result: ' + parsed + ' != ' + expect + '\n';
+            errorLog += 'failed error: ' + test + ' result: ' + parsed + ' != ' + expect + '\n';
         }
 
     });
@@ -88,12 +89,18 @@ for (var i = 0; i < 10000; i++) {
 }
 
 Object.keys(manualTests).forEach(function(input) {
-    parsed = parseAnyDate(input).toISOString().substr(0,10);
-    if (parsed !== manualTests[input]) {
-        fail++;
-        errorLog += 'failed input: ' + input + ' result: ' + parsed + ' != ' + manualTests[input] + '\n';
-    } else {
-        success++;
+    parsed = parseAnyDate(input);
+    try{
+        parsed = parsed.toISOString().substr(0,10);
+        if (parsed !== manualTests[input]) {
+            fail++;
+            errorLog += 'failed match: ' + input + ' result: ' + parsed + ' != ' + manualTests[input] + '\n';
+        } else {
+            success++;
+        }
+    } catch(e){
+            fail++;
+            errorLog += 'failed error: ' + input + ' result: ' + parsed + ' != ' + manualTests[input] + '\n';
     }
 
 });
