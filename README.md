@@ -3,12 +3,17 @@
 This function is intended to provide a way to turn any reasonable user input or scraped date and reliably turn it into a javascript date object. It is intended to be minimal in order to be included into a project without bloat.
 
 Currently setup to be bias toward American dates starting with month (m/d/y)
+## Usage
+```
+parseAnyDate(input, allowFail);
+# input: whatever attempt at a date string you've got
+# allowFail: if true this will return false if it can't seem to figure out a date otherwise it retuns new Date() when it fails
 
 ## Example Usage
 
 ``` javascript
 var userInput = '1/29/2016';
-var dateObject = parseAnyDate(userInput);
+var dateObject = parseAnyDate(userInput, true);
 // outputs Fri Jan 29 2016 00:00:00 GMT-0800 (PST)
 
 console.log(dateObject.toISOString());

@@ -1,10 +1,10 @@
-function parseAnyDate(input) {
+function parseAnyDate(input, allowFail) {
     'use strict'; // version 0.2
 
     if (!input || typeof input !== 'string') {
         // we should always return a valid date
         if (!d instanceof Date) {
-            return new Date();
+            return allowFail ? false : new Date();
         } else {
             return input; // this is a date object already
         }
@@ -89,7 +89,7 @@ function parseAnyDate(input) {
     if (!isNaN(secs)) {
         return new Date(secs);
     } else {
-        return new Date();
+        return allowFail ? false : new Date();
     }
 
 }
