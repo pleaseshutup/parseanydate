@@ -23,7 +23,9 @@ var parseAnyDate = require('./parseAnyDate.js'),
         '10 1994, August': '1994-08-10',
         'The 10th of August, 1994': '1994-08-10',
         '10, August 1994': '1994-08-10',
-         // non usa day month year these should fail
+        'Oct 22 12:00:01 2013 GMT': '2013-10-22', // found on ssl certificates
+        'Apr 20 12:00:00 2016 GMT': '2016-04-20', // found on ssl certificates
+        // non usa day month year these should fail
         '10-08-1994': '1994-08-10',
         '10-8-1994': '1994-08-10',
         '.': new Date().toISOString().substr(0, 10),
@@ -67,10 +69,13 @@ for (var i = 0; i < 10000; i++) {
     // mon d yy
     tests.push(months[((month * 1) - 1)].substr(0, 3).toLowerCase() + ' ' + (day * 1) + ' ' + year);
 
+    // mon d hh:mm:ss yy
+    tests.push(months[((month * 1) - 1)].substr(0, 3).toLowerCase() + ' ' + (day * 1) + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + ' ' + year);
+
     tests.forEach(function(test) {
 
         var dt = parseAnyDate(test);
-        try{
+        try {
             parsed = dt.toISOString();
             if (parsed !== expect) {
                 fail++;
@@ -78,7 +83,7 @@ for (var i = 0; i < 10000; i++) {
             } else {
                 success++;
             }
-        } catch(e){
+        } catch (e) {
             fail++;
             errorLog += 'failed error: ' + test + ' result: ' + parsed + ' != ' + expect + '\n';
         }
@@ -90,19 +95,19 @@ for (var i = 0; i < 10000; i++) {
 
 Object.keys(manualTests).forEach(function(input) {
     parsed = parseAnyDate(input);
-    try{
-        parsed = parsed.toISOString().substr(0,10);
+    try {
+        parsed = parsed.toISOString().substr(0, 10);
         if (parsed !== manualTests[input]) {
             fail++;
             errorLog += 'failed match: ' + input + ' result: ' + parsed + ' != ' + manualTests[input] + '\n';
         } else {
             success++;
         }
-    } catch(e){
-            fail++;
-            errorLog += 'failed error: ' + input + ' result: ' + parsed + ' != ' + manualTests[input] + '\n';
+    } catch (e) {
+        fail++;
+        errorLog += 'failed error: ' + input + ' result: ' + parsed + ' != ' + manualTests[input] + '\n';
     }
 
 });
 
-console.log(success + ' of ' + (success + fail) + ' successfully processed in ' + ((ended - started)) + ' ms', '\n'+errorLog.substr(0, 600));
+console.log(success + ' of ' + (success + fail) + ' successfully processed in ' + ((ended - started)) + ' ms', '\n' + errorLog.substr(0, 600));
