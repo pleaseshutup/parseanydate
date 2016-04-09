@@ -58,6 +58,7 @@ function parseAnyDate(input, allowFail) {
                     // if we have the month or year then lets go with day
                     if (!d.d && (d.m || d.y)) {
                         d.d = part;
+                        return;
                     }
 
                     // if we do not have a year
@@ -83,8 +84,15 @@ function parseAnyDate(input, allowFail) {
 
     input.split(/[^A-Za-z0-9]/).forEach(loopFunc);
 
-    dateString = d.y + '-' + d.m + '-' + d.d + ' ' + d.h + ':' + d.mi + ':' + d.s;
-    //console.log('processded', input, 'as', dateString);
+    if(d.d < 10){ d.d = ('0' + (d.d*1)); }
+    if(d.m < 10){ d.m = ('0' + (d.m*1)); }
+    dateString = d.y + '-' + d.m + '-' + d.d;
+    if(d.h || d.mi || d.s){
+        if(d.h < 10){ d.h = ('0' + (d.h*1)); }
+        if(d.mi < 10){ d.mi = ('0' + (d.mi*1)); }
+        if(d.s < 10){ d.s = ('0' + (d.s*1)); }
+        dateString += 'T'+ ' ' + d.h + ':' + d.mi + ':' + d.s;
+    }
 
     var secs = Date.parse(dateString);
     if (!isNaN(secs)) {
