@@ -5,6 +5,6 @@
   },
   "scripts": {
     "test": "node tests.js",
-    "build": "uglifyjs parseAnyDate.js -c -m -o parseAnyDate.min.js"
+    "build": "uglifyjs parseAnyDate.js -c -m -o parseAnyDate.min.js; gzip < parseAnyDate.min.js > parseAnyDate.min.js.gz; stat --printf=\"%s\" parseAnyDate.min.js.gz; echo \" bytes\""
   }
 }
