@@ -13,6 +13,11 @@ function parseAnyDate(input, allowFail) {
     var secs = Date.parse(input);
     if (!isNaN(secs)) {
         return new Date(secs);
+    } else if(input && !isNaN(input)){
+        input = input + '';
+        if(input.length === 8){
+            return new Date(input.substr(0,4), input.substr(4,2)-1, input.substr(6,2));
+        }
     }
 
     var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
@@ -24,7 +29,7 @@ function parseAnyDate(input, allowFail) {
             mi: 0,
             s: 0
         },
-        loopFunc = function(part, p) {
+        loopFunc = function(part, p, ar) {
             if (part || part === '0') {
 
                 if (isNaN(part)) {
