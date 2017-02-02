@@ -8,6 +8,11 @@ function parseAnyDate(input, allowFail) {
         } else {
             return input; // this is a date object already
         }
+    } else {
+        if(input.length === 8 && !isNaN(input)){
+            var d = new Date(input.substr(0,4), input.substr(4,2)-1, input.substr(6,2));
+            if(d){ return d; }
+        }
     }
 
     var secs = Date.parse(input);
@@ -15,9 +20,6 @@ function parseAnyDate(input, allowFail) {
         return new Date(secs);
     } else if(input && !isNaN(input)){
         input = input + '';
-        if(input.length === 8){
-            return new Date(input.substr(0,4), input.substr(4,2)-1, input.substr(6,2));
-        }
     }
 
     var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
