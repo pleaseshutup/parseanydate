@@ -7,6 +7,7 @@ var parseAnyDate = require('./parseAnyDate.js'),
     // manual tests are key: input and value yyyy-mm-dd assumed output string
     manualTests = {
         '20160228': '2016-02-28',
+        '20170126': '2017-01-26',
         'Aug 10th, 1994': '1994-08-10',
         'Aug 1994, the 10th': '1994-08-10',
         'Janurary The 14th, 2005': '2005-01-14',
